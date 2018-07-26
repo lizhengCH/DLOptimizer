@@ -9,19 +9,19 @@
 
 ## Idea
 ---
-### What is ***'vec'***?
-一个按照定义顺序出现的张量集合被称为是'***vec***'.
+### What is ***vec***?
+一个按照定义顺序出现的张量集合被称为是***vec***.
 * 例如demo中的网络由2个卷积层(卷积核为$K_1,K_2$)+一个全连接层(权值矩阵为$W$)组成,那么
 $$[K_1,K_2,W]=tf.trainable\_variables()$$
 就是一个'***vec***'.
 * 梯度也可以是一个'***vec***':
 $$\left\{\frac{\partial L}{\partial K_1}, \frac{\partial L}{\partial K_2}, \frac{\partial L}{\partial W}\right\}=tf.gradients(loss, tf.trainable\_variables())$$
 
-### Why ***'vec'***?
-将张量集合拉成向量是一件非常破坏并行效率的行为,这也是为什么我们需要重新定义一种新的计算单元'***vec***'的缘故.
-### What is ***'mat'***?
-具有相同长度,且对应位置张量形状相同的张量集合的集合被称作是'***mat***'.
-* 例如demo中cost function对变量的近似"Hessian矩阵"就是一个'***mat***'.
+### Why ***vec***?
+将张量集合拉成向量是一件非常破坏并行效率的行为,这也是为什么我们需要重新定义一种新的计算单元***vec***的缘故.
+### What is ***mat***?
+具有相同长度,且对应位置张量形状相同的张量集合的集合被称作是***mat***.
+* 例如demo中cost function对变量的近似"Hessian矩阵"就是一个***mat***.
 $$
 \left\{\begin{matrix}
 \left\{\frac{\partial^2 L}{\partial K_1 \partial K_1}, \frac{\partial^2 L}{\partial K_1 \partial K_2}, \frac{\partial^2 L}{\partial K_1 \partial W}\right\}, \\
@@ -30,17 +30,17 @@ $$
 \end{matrix}\right\}
 $$
 
-### What is ***'eye'***?
-'***eye***'指的是一类特殊的张量$T_{ijk}^{uvw}=\delta(i,u)\delta(j,v)\delta(k,w)$,如果$T_{ijk}^{uvw}$上下标对应的维度并不相等,则定义$T_{ijk}^{uvw}\equiv0$.
+### What is ***eye***?
+***eye***指的是一类特殊的张量$T_{ijk}^{uvw}=\delta(i,u)\delta(j,v)\delta(k,w)$,如果$T_{ijk}^{uvw}$上下标对应的维度并不相等,则定义$T_{ijk}^{uvw}\equiv0$.
 ### Why ***'eye'***?
-对于***Newton or quasi-Newton's method***而言经常需要用到单位阵,而如果真的在计算中添加单位阵则其维度是非常夸张的,所以采用'***eye***'的好处就是只关心对角块上的'子单位阵'.降低了运算负担.
-### What is ***'tensor\_prod'***?
+对于***Newton or quasi-Newton's method***而言经常需要用到单位阵,而如果真的在计算中添加单位阵则其维度是非常夸张的,所以采用***eye***的好处就是只关心对角块上的'子单位阵'.降低了运算负担.
+### What is ***tensor\_prod***?
 ```python
 def tensor_prod(x, y):
     return tensor
 ```
 $$U_{ijk} \otimes V^{uvw} = T_{ijk}^{uvw}$$
-### What is ***'tensor\_transuvection'***?
+### What is ***tensor\_transuvection***?
 ```python
 def tensor_transuvection(x, y, mode='all'):
     if mode == 'all':
@@ -57,7 +57,7 @@ U_{ijk}^{uvw} \odot V_{uvw} = T_{ijk}, &\quad \mathrm{mode=right} \\
 U_{ijk}^{uvw} \odot V_{uvw}^{rst} = T_{ijk}^{rst}, &\quad \mathrm{mode=auto}
 \end{cases}
 $$
-### What is ***'vec_outer_prod'***?
+### What is ***vec_outer_prod***?
 ```python
 def vec_outer_prod(xs, ys):
     return {{tensor, ...}, ...}
@@ -66,7 +66,7 @@ $xs = \{X_1, ...\}, ys = \{Y_1, ...\}$, $X_i, Y_i$ are all tensors
 $$
 vec\_outer\_prod(xs, ys) = \{ \{ X_1 \otimes Y_1, \cdots, X_1 \otimes Y_n \}, \cdots, \{ X_n \otimes Y_1, \cdots, X_n \otimes Y_n \} \}
 $$
-### What is ***'vec_inner_prod'***?
+### What is ***vec_inner_prod***?
 ```python
 def vec_inner_prod(xs, ys, mode):
     if mode == 'all':
@@ -79,7 +79,7 @@ def vec_inner_prod(xs, ys, mode):
 $$
 \sum\limits_{i} tensor\_transuvection(X_i, Y_i, mode), \quad X_i \in xs, Y_i \in ys
 $$
-### What is ***'mat_vec_prod'***?
+### What is ***mat_vec_prod***?
 ```python
 def mat_vec_prod(ms, xs, mode):
     return {tensor, ...}
@@ -88,12 +88,12 @@ $xs = \{\{M_{11}, \cdots, M_{1n}\}, \cdots, \{M_{m1}, \cdots, M_{mn}\}\}, xs = \
 $$
 mat\_vec\_prod(ms, xs, mode) = \{vec\_inner\_prod(\{M_{11}, \cdots, M_{1n}\}, xs, mode), \cdots \}
 $$
-### What is ***'mat_mat_prod'***?
+### What is ***mat_mat_prod***?
 ```python
 def mat_mat_prod(mxs, mys, mode):
     return {tensor, ...}
 ```
-Think of mys as column vectors $\{ ys_1, \cdots, ys_m \}$,then use '***mat_vec_prod***'.
+Think of mys as column vectors $\{ ys_1, \cdots, ys_m \}$,then use ***mat_vec_prod***.
 
 ## Limits
 ---
