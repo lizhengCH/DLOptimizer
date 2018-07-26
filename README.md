@@ -4,7 +4,7 @@
 
 ## Requirements
 ---
-* Tensorflow  $\ \ge\ $1.3
+* Tensorflow  ![](http://latex.codecogs.com/gif.latex?\\ \ge\ )1.3
 * Python $\ \ge\ $3.5
 
 ## Idea
