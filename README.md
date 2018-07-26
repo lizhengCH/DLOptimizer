@@ -7,6 +7,8 @@
 * Tensorflow  ![](http://latex.codecogs.com/gif.latex?\\ \ge\ )1.3
 * Python $\ \ge\ $3.5
 
+![](http://latex.codecogs.com/gif.latex?\\frac{1}{1+sin(x)})
+
 ## Idea
 ---
 ### What is ***vec***?
